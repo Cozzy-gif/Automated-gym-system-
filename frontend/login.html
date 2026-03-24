@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Gym Membership System - Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card glass">
+            <div class="auth-header fade-in" style="animation-delay: 0.1s;">
+                <div class="brand-icon" style="margin: 0 auto 1rem auto; width: 48px; height: 48px; font-size: 1.5rem;">
+                    G</div>
+                <h1>Automated Gym Membership System</h1>
+                <p>Welcome back</p>
+            </div>
+
+            <form id="loginForm" class="fade-in" style="animation-delay: 0.2s;">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <div style="text-align: right; margin-top: -10px; margin-bottom: 20px;">
+                    <a href="forgot_password.html" id="forgotPasswordLink"
+                        style="color: var(--primary-color); font-size: 0.85rem; text-decoration: none; font-weight: 500; transition: var(--transition);"
+                        onmouseover="this.style.color='var(--primary-hover)'"
+                        onmouseout="this.style.color='var(--primary-color)'">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn">Login to Dashboard</button>
+
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    Don't have an account? <a href="signup.html"
+                        style="color: var(--primary-color); text-decoration: none; font-weight: 500; transition: var(--transition);"
+                        onmouseover="this.style.color='var(--primary-hover)'"
+                        onmouseout="this.style.color='var(--primary-color)'">Register here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/login.js"></script>
+</body>
+
+</html>

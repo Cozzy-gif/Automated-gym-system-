@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Gym Membership System - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass" style="border-radius: 0; border-right: 1px solid rgba(255,255,255,0.1);">
+            <a href="#" class="brand">
+                <div class="brand-icon">G</div>
+                Automated Gym Membership System
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" id="overviewTab" class="active">
+                        <span>📊</span> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="usersTab">
+                        <span>👥</span> Users / Staff
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="equipmentTab">
+                        <span>🏋️</span> Equipment
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="membersTab">
+                        <span>📋</span> Members List
+                    </a>
+                </li>
+                <li class="nav-item"
+                    style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 10px;">
+                    <a href="registration.html">
+                        <span>👤</span> Registration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="payment.html">
+                        <span>💳</span> Payments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="simulateCheckIn">
+                        <span>🚪</span> Simulate Biometric
+                    </a>
+                </li>
+            </ul>
+
+            <div style="padding: 1rem 1.5rem; margin-top: auto;">
+                <p
+                    style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+                    Switch Dashboard</p>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="receptionist_dashboard.html" class="nav-item"
+                        style="padding: 0.5rem; font-size: 0.9rem; text-decoration: none; color: var(--text-primary); border-radius: 8px; transition: background 0.2s;">
+                        <span>🏢</span> Receptionist View
+                    </a>
+                    <a href="member_dashboard.html" class="nav-item"
+                        style="padding: 0.5rem; font-size: 0.9rem; text-decoration: none; color: var(--text-primary); border-radius: 8px; transition: background 0.2s;">
+                        <span>💪</span> Member View
+                    </a>
+                </div>
+            </div>
+
+            <a href="#" id="logoutBtn" class="logout-btn" style="margin-top: 1rem;">
+                <span>🚪</span> Logout
+            </a>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header fade-in" style="animation-delay: 0.1s;">
+                <h2 id="pageTitle">Overview Dashboard</h2>
+                <div class="user-profile">
+                    <span id="userNameDisplay">Admin User</span>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <div id="overviewSection">
+                <div class="stats-grid fade-in" style="animation-delay: 0.2s;">
+                    <div class="stat-card glass">
+                        <div class="stat-info">
+                            <p>Total Members</p>
+                            <h3 id="statTotalMembers">...</h3>
+                        </div>
+                        <div class="stat-icon">👥</div>
+                    </div>
+
+                    <div class="stat-card glass">
+                        <div class="stat-info">
+                            <p>Active Plans</p>
+                            <h3 id="statActivePlans" style="color: var(--accent-success);">...</h3>
+                        </div>
+                        <div class="stat-icon"
+                            style="color: var(--accent-success); background: rgba(16, 185, 129, 0.1);">✓
+                        </div>
+                    </div>
+
+                    <div class="stat-card glass">
+                        <div class="stat-info">
+                            <p>Revenue (Total)</p>
+                            <h3 id="statTotalRevenue">ksh ...</h3>
+                        </div>
+                        <div class="stat-icon" style="color: #F59E0B; background: rgba(245, 158, 11, 0.1);">💰</div>
+                    </div>
+
+                    <div class="stat-card glass">
+                        <div class="stat-info">
+                            <p>Monthly Revenue</p>
+                            <h3 id="statMonthlyRevenue" style="color: var(--primary-color);">ksh ...</h3>
+                        </div>
+                        <div class="stat-icon"
+                            style="color: var(--primary-color); background: rgba(99, 102, 241, 0.1);">📅</div>
+                    </div>
+                </div>
+
+                <!-- System Activity Section -->
+                <div class="glass fade-in" style="padding: 1.5rem; animation-delay: 0.3s; margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                        Recent System Activity</h3>
+                    <div id="activityLog" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <!-- Activity items will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div id="usersSection" style="display: none;" class="fade-in">
+                <div class="glass" style="padding: 1.5rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>User & Roles Management</h3>
+                        <button class="btn" id="btnAddUser">Add User</button>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 1rem 0;">ID</th>
+                                <th style="padding: 1rem 0;">Username</th>
+                                <th style="padding: 1rem 0;">Role</th>
+                                <th style="padding: 1rem 0;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="4">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Equipment Section -->
+            <div id="equipmentSection" style="display: none;" class="fade-in">
+                <div class="glass" style="padding: 1.5rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Equipment Management</h3>
+                        <button class="btn" id="btnAddEquipment">Add Equipment</button>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 1rem 0;">ID</th>
+                                <th style="padding: 1rem 0;">Name</th>
+                                <th style="padding: 1rem 0;">Body Part</th>
+                                <th style="padding: 1rem 0;">Condition</th>
+                                <th style="padding: 1rem 0;">Status</th>
+                                <th style="padding: 1rem 0;">Last Maintenance</th>
+                                <th style="padding: 1rem 0;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipmentTableBody">
+                            <tr>
+                                <td colspan="6">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Members List Section -->
+            <div id="membersSection" style="display: none;" class="fade-in">
+                <div class="glass" style="padding: 1.5rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Gym Members Database</h3>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 1rem 0;">ID</th>
+                                <th style="padding: 1rem 0;">Name</th>
+                                <th style="padding: 1rem 0;">Email / Phone</th>
+                                <th style="padding: 1rem 0;">Plan Type</th>
+                                <th style="padding: 1rem 0;">Status</th>
+                                <th style="padding: 1rem 0;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <tr>
+                                <td colspan="6">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="userModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 400px;">
+        <h3 id="userModalTitle" style="margin-bottom: 1rem;">Add User</h3>
+        <form id="userForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="hidden" id="userIdInput">
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="usernameInput" required>
+            </div>
+            <div class="input-group">
+                <label>Password (Leave blank to keep current on edit)</label>
+                <input type="password" id="passwordInput">
+            </div>
+            <div class="input-group">
+                <label>Role</label>
+                <select id="roleInput" required
+                    style="width: 100%; padding: 0.9rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary);">
+                    <option value="Administrator">Administrator</option>
+                    <option value="Gym staff">Gym Staff / Trainer</option>
+                    <option value="Receptionist">Receptionist</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn" style="flex: 1;">Save</button>
+                <button type="button" class="btn closeModalBtn"
+                    style="flex: 1; background: var(--surface-hover);">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Add Equipment Modal -->
+    <div id="equipmentModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 400px;">
+        <h3 id="equipmentModalTitle" style="margin-bottom: 1rem;">Add Equipment</h3>
+        <form id="equipmentForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="hidden" id="equipIdInput">
+            <div class="input-group">
+                <label>Equipment Name</label>
+                <input type="text" id="equipNameInput" required>
+            </div>
+            <div class="input-group">
+                <label>Condition</label>
+                <input type="text" id="equipConditionInput" placeholder="e.g. Good, Needs Repair" required>
+            </div>
+            <div class="input-group">
+                <label>Body Part / Category</label>
+                <select id="equipBodyPartInput" required
+                    style="width: 100%; padding: 0.9rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary);">
+                    <option value="Full Body">Full Body (General)</option>
+                    <option value="Chest">Chest</option>
+                    <option value="Back">Back</option>
+                    <option value="Legs">Legs</option>
+                    <option value="Shoulders">Shoulders</option>
+                    <option value="Arms">Arms (Biceps/Triceps)</option>
+                    <option value="Core">Core / Abs</option>
+                    <option value="Cardio">Cardio</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Status</label>
+                <select id="equipStatusInput" required
+                    style="width: 100%; padding: 0.9rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary);">
+                    <option value="Operational">Operational</option>
+                    <option value="Under Maintenance">Under Maintenance</option>
+                    <option value="Out of Order">Out of Order</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Last Maintenance Date</label>
+                <input type="date" id="equipDateInput" required>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn" style="flex: 1;">Save</button>
+                <button type="button" class="btn closeModalBtn"
+                    style="flex: 1; background: var(--surface-hover);">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Biometric Simulation Modal -->
+    <div id="checkInModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 400px; text-align: center;">
+        <h3 style="margin-bottom: 1rem;">Simulate Biometric Scan</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Enter a registered biometric ID to test the door
+            relay logic.</p>
+        <div class="input-group">
+            <input type="text" id="bioIdInput" placeholder="e.g. BIO-123">
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <button id="scanBtn" class="btn" style="flex: 1;">Scan</button>
+            <button id="closeModal" class="btn" style="flex: 1; background: var(--surface-hover);">Cancel</button>
+        </div>
+        <div id="scanResult"
+            style="margin-top: 1.5rem; font-weight: bold; padding: 1rem; border-radius: 8px; display: none;"></div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 999;">
+    </div>
+
+    <!-- Password Update Modal (Admin) -->
+    <div id="passwordModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1001; width: 350px;">
+        <h3 style="margin-bottom: 1rem; text-align: center;">Reset Member Password</h3>
+        <form id="passwordForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="hidden" id="resetUserId">
+            <div class="input-group">
+                <label>New Password</label>
+                <input type="password" id="newPasswordInput" required>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                <button type="submit" class="btn" style="flex: 1;">Update</button>
+                <button type="button" class="btn closeModalBtn"
+                    style="flex: 1; background: var(--surface-hover);">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Gym Membership System - Trainer Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass" style="border-radius: 0; border-right: 1px solid rgba(255,255,255,0.1);">
+            <a href="#" class="brand">
+                <div class="brand-icon">G</div>
+                Trainer Portal
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" id="membersTab" class="active">
+                        <span>👥</span> Members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="sessionsTab">
+                        <span>📅</span> My Sessions
+                    </a>
+                </li>
+            </ul>
+
+            <a href="#" id="logoutBtn" class="logout-btn" style="margin-top: auto;">
+                <span>🚪</span> Logout
+            </a>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header fade-in" style="animation-delay: 0.1s;">
+                <h2 id="pageTitle">Member Management</h2>
+                <div class="user-profile">
+                    <span id="userNameDisplay">Trainer Name</span>
+                    <div class="avatar" style="background: var(--primary-color);">T</div>
+                </div>
+            </header>
+
+            <!-- Members Section -->
+            <div id="membersSection" class="fade-in" style="animation-delay: 0.2s;">
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">All Members</h3>
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="padding: 1rem 0;">Name</th>
+                                <th style="padding: 1rem 0;">Plan</th>
+                                <th style="padding: 1rem 0;">Status</th>
+                                <th style="padding: 1rem 0;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <tr>
+                                <td colspan="4">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sessions Section -->
+            <div id="sessionsSection" style="display: none;" class="fade-in">
+                <div class="glass" style="padding: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">My Upcoming Sessions</h3>
+                    <div id="sessionsList" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <p>Loading sessions...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Workout Plan Modal -->
+    <div id="workoutModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 500px;">
+        <h3 id="workoutModalTitle" style="margin-bottom: 1rem;">Assign Workout</h3>
+        <p id="workoutMemberName" style="color: var(--text-secondary); margin-bottom: 1rem;"></p>
+        <form id="workoutForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="hidden" id="workoutUserIdInput">
+            <div class="input-group">
+                <label>Day of Week</label>
+                <select id="workoutDayInput" required
+                    style="width: 100%; padding: 0.9rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary);">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Routine Details</label>
+                <textarea id="workoutRoutineInput" rows="5" required
+                    style="width: 100%; padding: 0.9rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); resize: vertical;"></textarea>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn" style="flex: 1;">Save Routine</button>
+                <button type="button" class="btn closeModalBtn"
+                    style="flex: 1; background: var(--surface-hover);">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Attendance Modal -->
+    <div id="attendanceModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 450px;">
+        <h3 style="margin-bottom: 1rem;">Member Attendance</h3>
+        <p id="attendanceMemberName" style="color: var(--text-secondary); margin-bottom: 1rem;"></p>
+        <div id="attendanceList"
+            style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
+            Loading...
+        </div>
+        <button type="button" class="btn closeModalBtn"
+            style="width: 100%; margin-top: 1.5rem; background: var(--surface-hover);">Close</button>
+    </div>
+
+    <div id="modalOverlay"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 999;">
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/trainer.js"></script>
+</body>
+
+</html>

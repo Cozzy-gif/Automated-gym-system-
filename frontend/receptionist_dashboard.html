@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptionist Dashboard -Automateg Gym Membership Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .activity-card {
+            padding: 2rem;
+            text-align: center;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .activity-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass" style="border-radius: 0; border-right: 1px solid rgba(255,255,255,0.1);">
+            <a href="#" class="brand">
+                <div class="brand-icon">G</div>
+                Front Desk
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="receptionist_dashboard.html" class="active">
+                        <span>📊</span> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="registration.html">
+                        <span>👤</span> Registration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="payment.html">
+                        <span>💳</span> Payments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="attendance.html">
+                        <span>📅</span> Attendance
+                    </a>
+                </li>
+            </ul>
+
+            <div id="switchDashboardContainer" style="padding: 1rem 1.5rem; margin-top: auto;">
+                <p
+                    style="color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+                    Switch Dashboard</p>
+                <div id="switchDashboardLinks" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="member_dashboard.html" class="nav-item"
+                        style="padding: 0.5rem; font-size: 0.9rem; text-decoration: none; color: var(--text-primary); border-radius: 8px; transition: background 0.2s;">
+                        <span>💪</span> Member View
+                    </a>
+                </div>
+            </div>
+
+            <a href="#" id="logoutBtn" class="logout-btn" style="margin-top: 1rem;">
+                <span>🚪</span> Logout
+            </a>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header fade-in" style="animation-delay: 0.1s;">
+                <div>
+                    <h2>Receptionist Dashboard</h2>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">Manage daily gym operations and assist
+                        members.</p>
+                </div>
+                <div class="user-profile">
+                    <span id="userNameDisplay">Receptionist</span>
+                    <div class="avatar" style="background: var(--accent-success);">R</div>
+                </div>
+            </header>
+
+            <div class="glass fade-in" style="padding: 2rem; margin-top: 2rem; animation-delay: 0.2s;">
+                <h3 style="margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;">
+                    Quick Actions (5 Major Activities)</h3>
+
+                <div class="activity-grid">
+                    <!-- Activity 1: Member Registration -->
+                    <div class="activity-card glass" onclick="window.location.href='registration.html'">
+                        <div class="activity-icon">📝</div>
+                        <div class="activity-title">Register Member</div>
+                        <div class="activity-desc">Enroll new members and set up profiles</div>
+                    </div>
+
+                    <!-- Activity 2: Payment Processing -->
+                    <div class="activity-card glass" onclick="window.location.href='payment.html'">
+                        <div class="activity-icon">💳</div>
+                        <div class="activity-title">Process Payment</div>
+                        <div class="activity-desc">Accept payments for plans and renewals</div>
+                    </div>
+
+                    <!-- Activity 3: Attendance Tracking -->
+                    <div class="activity-card glass" onclick="window.location.href='attendance.html'">
+                        <div class="activity-icon">📅</div>
+                        <div class="activity-title">View Attendance</div>
+                        <div class="activity-desc">Monitor member check-ins and history</div>
+                    </div>
+
+                    <!-- Activity 4: Issue Day Pass -->
+                    <div class="activity-card glass" id="btnDayPass">
+                        <div class="activity-icon">🎟️</div>
+                        <div class="activity-title">Issue Day Pass</div>
+                        <div class="activity-desc">Quickly issue a 1-day pass to walk-ins</div>
+                    </div>
+
+                    <!-- Activity 5: Member Inquiry -->
+                    <div class="activity-card glass" id="btnMemberStatus">
+                        <div class="activity-icon">🔍</div>
+                        <div class="activity-title">Check Member Status</div>
+                        <div class="activity-desc">Search and verify a member's plan validity</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats Widget -->
+            <div class="stats-grid fade-in" style="animation-delay: 0.3s; margin-top: 2rem;">
+                <div class="stat-card glass">
+                    <div class="stat-info">
+                        <p>Check-ins Today</p>
+                        <h3 id="dailyCheckins">24</h3>
+                    </div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-info">
+                        <p>New Registrations</p>
+                        <h3 id="dailyRegistrations" style="color: var(--accent-success);">3</h3>
+                    </div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-info">
+                        <p>Day Passes Sold</p>
+                        <h3 id="dayPassesSold" style="color: #F59E0B;">5</h3>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modals for Day Pass & Inquiries -->
+    <div id="modalOverlay"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 999;">
+    </div>
+
+    <!-- Day Pass Modal -->
+    <div id="dayPassModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 400px;">
+        <h3 style="margin-bottom: 1.5rem; text-align: center;">Issue Day Pass</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem; text-align: center;">Generate a temporary barcode
+            for access.</p>
+        <form id="dayPassForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="input-group">
+                <label>Guest Name</label>
+                <input type="text" id="guestName" required placeholder="John Doe">
+            </div>
+            <div class="input-group">
+                <label>Phone Number (Optional)</label>
+                <input type="text" id="guestPhone" placeholder="0712345678">
+            </div>
+            <div class="input-group">
+                <label>Amount (Ksh)</label>
+                <input type="number" id="dayPassAmount" value="500" readonly>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn" style="flex: 1;">Issue Pass</button>
+                <button type="button" class="btn closeModalBtn"
+                    style="flex: 1; background: var(--surface-hover);">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Member Status Modal -->
+    <div id="statusModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1000; width: 550px; max-height: 80vh; overflow-y: auto;">
+        <h3 style="margin-bottom: 1.5rem; text-align: center;">Members Database</h3>
+        <div class="input-group" style="margin-bottom: 1rem;">
+            <input type="text" id="searchInput" placeholder="Search by Name, Email, or Phone...">
+        </div>
+
+        <div id="searchResult" style="margin-top: 1.5rem;">
+            <!-- Results injected here -->
+        </div>
+
+        <button type="button" class="btn closeModalBtn"
+            style="width: 100%; margin-top: 1rem; background: var(--surface-hover);">Close</button>
+    </div>
+
+    <!-- Password Update Modal (Receptionist) -->
+    <div id="passwordModal" class="glass"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; z-index: 1001; width: 350px;">
+        <h3 style="margin-bottom: 1rem; text-align: center;">Reset Password</h3>
+        <form id="passwordForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <input type="hidden" id="resetUserId">
+            <div class="input-group">
+                <label>New Password</label>
+                <input type="password" id="newPasswordInput" required>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                <button type="submit" class="btn" style="flex: 1;">Update</button>
+                <button type="button" class="btn"
+                    onclick="document.getElementById('passwordModal').style.display = 'none';"
+                    style="flex: 1; background: var(--surface-hover);">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/receptionist.js"></script>
+</body>
+
+</html>

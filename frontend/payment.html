@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Gym Membership System - Payments</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass" style="border-radius: 0; border-right: 1px solid rgba(255,255,255,0.1);">
+            <a href="#" class="brand">
+                <div class="brand-icon">G</div>
+                Automated Gym Membership System
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" id="backToDashBtn">
+                        <span>📊</span> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="payment.html" class="active">
+                        <span>💳</span> Payments
+                    </a>
+                </li>
+            </ul>
+
+            <a href="login.html" id="logoutBtn" class="logout-btn">
+                <span>🚪</span> Logout
+            </a>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Payment & Renewal</h2>
+                <div class="user-profile">
+                    <span id="userNameDisplay">Receptionist</span>
+                    <div class="avatar">R</div>
+                </div>
+            </header>
+
+            <div class="form-card glass fade-in" style="animation-delay: 0.1s;">
+                <h3 style="margin-bottom: 2rem;">Process Payment</h3>
+                <form id="paymentForm">
+                    <div class="input-group">
+                        <label>Member ID or Biometric ID</label>
+                        <input type="text" id="memberId" placeholder="e.g. 1 or BIO-123" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Membership Plan</label>
+                            <select id="planType"
+                                style="width: 100%; padding: 0.9rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 1rem;"
+                                required>
+                                <option value="" disabled selected>Select Plan</option>
+                                <option value="Monthly">Monthly (ksh 1500)</option>
+                                <option value="Quarterly">Quarterly (ksh 3500)</option>
+                                <option value="Annual">Annual (ksh 6000)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Amount Received</label>
+                            <input type="number" id="amount" placeholder="0.00" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" style="margin-top: 1rem;" id="payBtn">Process Payment</button>
+
+                    <div id="receiptArea"
+                        style="margin-top: 2rem; padding: 1.5rem; background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent-success); border-radius: 4px; display: none;">
+                        <h4 style="color: var(--accent-success); margin-bottom: 0.5rem;">Digital Receipt Generated</h4>
+                        <p style="font-size: 0.9rem;" id="receiptDetails"></p>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = sessionStorage.getItem('gym_user');
+            if (!userStr) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const user = JSON.parse(userStr);
+            document.getElementById('userNameDisplay').textContent = user.username + ' (' + user.role + ')';
+
+            // Set dynamic back button
+            const backBtn = document.getElementById('backToDashBtn');
+            if (user.role === 'Administrator') {
+                backBtn.href = 'dashboard.html';
+            } else if (user.role === 'Receptionist') {
+                backBtn.href = 'receptionist_dashboard.html';
+            } else {
+                backBtn.href = 'member_dashboard.html';
+            }
+
+            // Pre-fill member ID if redirected from registration
+            const pendingMemberId = sessionStorage.getItem('pending_payment_member_id');
+            if (pendingMemberId) {
+                document.getElementById('memberId').value = pendingMemberId;
+                sessionStorage.removeItem('pending_payment_member_id');
+                const toast = document.getElementById('toast');
+                toast.textContent = 'Member registered. Please process their payment to activate the account.';
+                toast.className = 'toast show success';
+                setTimeout(() => {
+                    toast.className = 'toast';
+                }, 4000);
+            }
+        });
+
+        document.getElementById('planType').addEventListener('change', function () {
+            const amountInput = document.getElementById('amount');
+            if (this.value === 'Monthly') amountInput.value = 1500;
+            if (this.value === 'Quarterly') amountInput.value = 3500;
+            if (this.value === 'Annual') amountInput.value = 6000;
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const member_id = document.getElementById('memberId').value;
+            const plan_type = document.getElementById('planType').value;
+            const amount = document.getElementById('amount').value;
+            const payBtn = document.getElementById('payBtn');
+            const receiptArea = document.getElementById('receiptArea');
+            const toast = document.getElementById('toast');
+
+            payBtn.innerText = 'Processing...';
+            payBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ member_id, plan_type, amount })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    toast.textContent = data.message;
+                    toast.className = 'toast show success';
+
+                    receiptArea.style.display = 'block';
+                    receiptArea.innerHTML = `
+                        <h4 style="color: var(--accent-success); margin-bottom: 0.5rem;">Digital Receipt: ${data.receipt.receipt_id}</h4>
+                        <p style="font-size: 0.9rem;">Member ID: ${data.receipt.member_id} <br>
+                        Plan: ${data.receipt.plan} <br>
+                        Amount Paid: Ksh ${data.receipt.amount_paid} <br>
+                        <strong>New Expiry: ${data.receipt.new_expiry}</strong></p>
+                    `;
+                } else {
+                    toast.textContent = data.message;
+                    toast.className = 'toast show error';
+                }
+            } catch (error) {
+                // Demo fallback
+                toast.textContent = 'Demo Mode: Payment Processed Successfully';
+                toast.className = 'toast show success';
+
+                // Demo logic for expiry
+                let months = 1;
+                if (plan_type === 'Quarterly') months = 3;
+                if (plan_type === 'Annual') months = 12;
+
+                const d = new Date();
+                d.setMonth(d.getMonth() + months);
+                const expiry = d.toISOString().split('T')[0];
+
+                receiptArea.style.display = 'block';
+                receiptArea.innerHTML = `
+                    <h4 style="color: var(--accent-success); margin-bottom: 0.5rem;">Digital Receipt: REC${Date.now()}</h4>
+                    <p style="font-size: 0.9rem;">Member ID: ${member_id} <br>
+                    Plan: ${plan_type} <br>
+                    Amount Paid: Ksh ${amount} <br>
+                    <strong>New Expiry: ${expiry}</strong></p>
+                `;
+            }
+
+            payBtn.innerText = 'Process Payment';
+            payBtn.disabled = false;
+
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>

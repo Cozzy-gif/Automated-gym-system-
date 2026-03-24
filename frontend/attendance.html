@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Tracking - Gym Management</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .attendance-table th,
+        .attendance-table td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .attendance-table th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-granted {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-success);
+            border: 1px solid var(--accent-success);
+        }
+
+        .status-denied {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-danger);
+            border: 1px solid var(--accent-danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass" style="border-radius: 0; border-right: 1px solid rgba(255,255,255,0.1);">
+            <a href="receptionist_dashboard.html" class="brand">
+                <div class="brand-icon">G</div>
+                Front Desk
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" id="backToDashBtn">
+                        <span>📊</span> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="registration.html">
+                        <span>👤</span> Registration
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="payment.html">
+                        <span>💳</span> Payments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="attendance.html" class="active">
+                        <span>📅</span> Attendance
+                    </a>
+                </li>
+            </ul>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                <span>🚪</span> Logout
+            </a>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header fade-in" style="animation-delay: 0.1s;">
+                <div>
+                    <h2>Attendance Tracking</h2>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">Monitor real-time gym check-ins and
+                        biometric scans.</p>
+                </div>
+                <div class="user-profile">
+                    <span id="userNameDisplay">Receptionist</span>
+                    <div class="avatar" style="background: var(--accent-success);">R</div>
+                </div>
+            </header>
+
+            <div class="glass fade-in" style="padding: 2rem; margin-top: 2rem; animation-delay: 0.2s;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Today's Check-ins</h3>
+                    <button class="btn" id="refreshBtn">Refresh ↻</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="attendance-table" id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Member Name</th>
+                                <th>Access Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody">
+                            <!-- Populated via JavaScript -->
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-secondary);">Loading
+                                    logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/attendance.js"></script>
+</body>
+
+</html>
